@@ -5,6 +5,12 @@ import { animated, useSpring } from 'react-spring';
 import Slider from "react-slick";  
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import SearchIcon from '@mui/icons-material/Search';
+import InputBase from '@mui/material/InputBase';
+import IconButton from '@mui/material/IconButton';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { Select, MenuItem } from '@mui/material';
+
 
 const AnimatedText = ({ children }) => {
   const [prevScrollPos, setPrevScrollPos] = useState(0);
@@ -47,9 +53,23 @@ const HomeTabContent = () => {
 
   return (
     <div style={{ position: 'relative', minHeight: '98vh', opacity: '0.9' }}>
-      <Slider {...settings}>
-        <div>
-          <img src="https://i.postimg.cc/8CYsNjcV/pexels-asadphoto-3426880.jpg" alt="ocean" style={{ width: '100%', height: '100vh' }} />
+      <Slider {...settings} dots={false}>
+      <div style={{ position: 'relative' }}>
+        <img
+          src="https://i.postimg.cc/8CYsNjcV/pexels-asadphoto-3426880.jpg"
+          alt="ocean"
+          style={{ width: '100%', height: '100vh', objectFit: 'cover' }}
+        />
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.5), transparent 30%, transparent 70%, rgba(0, 0, 0, 0.5))',
+          }}
+        ></div>
         </div>
         <div>
           <img src="https://i.postimg.cc/yY3gdh9r/maldives-2299563-1280.jpg" alt="sea boat" style={{ width: '100%', height: '100vh' }} />
@@ -68,13 +88,72 @@ const HomeTabContent = () => {
         </div>
       </Slider>
 
-      <div style={{ position: 'absolute', top: '40%', left: '50%', transform: 'translateX(-50%)' }}>
+      <div
+        style={{
+          position: "absolute",
+          top: "20%",
+          left: "28%",
+          transform: "translateX(-50%)",
+        }}
+      >
         <AnimatedText>
-          <Typography variant="h1" component="div" style={{ textAlign: 'center', textShadow: '1px 1px 0 white, -1px 1px 0 white, 1px -1px 0 white, -1px -1px 0 white' }} fontFamily={'Playfair Display'} color="black">
-            Welcome To<br/>Holiday Life
+          <Typography
+            variant="h1"
+            component="div"
+            style={{
+              fontFamily: "Playfair Display",
+              color: "White",
+              fontWeight: "bolder",
+              fontSize: "60px",
+            }}
+          >
+            Welcome to Your
+          </Typography>
+          <Typography
+            variant="h1"
+            component="div"
+            style={{
+              fontFamily: "Playfair Display",
+              color: "White",
+              fontWeight: "bolder",
+              fontSize: "130px",
+              marginTop: "-20px",
+            }}
+          >
+            Dream Holiday
           </Typography>
         </AnimatedText>
+
+        <button
+          style={{
+            marginTop: "30px",
+            padding: "15px 30px",
+            fontSize: "18px",
+            fontFamily: "Playfair Display, serif",
+            color: "#fff",
+            backgroundColor: "rgb(0, 62, 138)",
+            border: "none",
+            borderRadius: "30px",
+            cursor: "pointer",
+            boxShadow: "0 8px 15px rgba(0, 0, 0, 0.2)",
+            transition: "all 0.3s ease",
+            position: "relative",
+            top: "-45px",
+            left: "63%",
+          }}
+          onMouseEnter={(e) => {
+            e.target.style.transform = "scale(1.05)";
+            e.target.style.boxShadow = "0 12px 20px rgba(0, 0, 0, 0.3)";
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.transform = "scale(1)";
+            e.target.style.boxShadow = "0 8px 15px rgba(0, 0, 0, 0.2)";
+          }}
+        >
+          Connect with an Expert
+        </button>
       </div>
+
     </div>
   );
 };
@@ -147,10 +226,11 @@ export const AccountTabContent = () => {
 };
 
 const Navigation = () => {
-  const [navBackground, setNavBackground] = useState('transparent');
+  const [searchTerm, setSearchTerm] = useState("");
   const [value, setValue] = useState(0);
   const [user, setUser] = useState();
   const location = useLocation();
+  const [currency, setCurrency] = useState("LKR");
 
   useEffect(() => {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -175,24 +255,34 @@ const Navigation = () => {
     }
   }, [location]);
 
+  const [scrollPosition, setScrollPosition] = useState(0);
+
   useEffect(() => {
     const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      const navbarHeight = 80;
-
-      if (scrollPosition > navbarHeight) {
-        setNavBackground('#023e8a');
-      } else {
-        setNavBackground('transparent');
-      }
+      setScrollPosition(window.scrollY);
     };
 
     window.addEventListener('scroll', handleScroll);
-
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handleCurrencyChange = (event) => {
+    setCurrency(event.target.value);
+    console.log("Currency changed to:", event.target.value);
+  };
+
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
+    console.log("Searching for:", searchTerm);
+    // Implement search logic here
+  };
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -203,42 +293,166 @@ const Navigation = () => {
     window.location.href = '/';
   };
 
+  const opacity = Math.min(1, (scrollPosition / 400)); 
+  const backgroundColor = `rgba(0, 62, 138, ${opacity})`;
+
+  const currencyOptions = [
+    { value: "LKR", label: "LKR", flag: "🇱🇰" },
+    { value: "USD", label: "USD", flag: "🇺🇸" },
+    { value: "EUR", label: "EUR", flag: "🇪🇺" },
+    { value: "GBP", label: "GBP", flag: "🇬🇧" },
+    { value: "JPY", label: "JPY", flag: "🇯🇵" }
+  ];
+
   return (
     <div>
-      <AppBar position="fixed" style={{ backgroundColor: navBackground, boxShadow: 'none', height: '100px', font: 'Playfair Display' }}>
-        <Toolbar style={{ display: 'flex', justifyContent: 'space-around', height: '100%' }}>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
+      <AppBar 
+        position="fixed" 
+        style={{
+          backgroundColor,
+          transition: 'background-color 0.3s ease-in-out',
+          boxShadow: 'none',
+          height: '100px',
+          backdropFilter: 'blur(10px)',
+      }}>
+        <Toolbar className="flex justify-start items-center h-full px-6">
+          <div className="flex items-center">
             <Tabs
               value={value}
               onChange={handleChange}
+              TabIndicatorProps={{ style: { backgroundColor: "rgba(255,255,255,0.9)", height: "4px", marginBottom: "10px" } }}
               textColor="white"
-              style={{ marginLeft: '0px', marginRight: '110px' }}
+              style={{ marginLeft: '0px', marginRight: '0px', marginLeft: '170px' }}
             >
-              <Tab label="Home" component={Link} to="/" value={0} />
-              <Tab label="Tours" component={Link} to="/" value={1} />
-              <Tab label="Contact" component={Link} to="/contact" value={3} />
-              {/* <Typography
-                variant="h4"
-                component="div"
-                sx={{ color: 'white' }}
-                marginRight={20}
-                marginLeft={20}
-                fontFamily={'Playfair Display'}
-              >
-                HOLIDAY LIFE
-              </Typography> */}
-              <div style={{ marginLeft: '100px', marginRight: '100px' }}>
+              <Tab
+                label="Home"
+                component={Link}
+                to="/"
+                style={{ fontWeight: 'bold', fontSize: '1.01rem',marginRight: '35px', color: 'rgba(255,255,255,0.9)' }}
+                className=" hover:text-gray-300"
+              />
+              <Tab
+                label="Tours"
+                component={Link}
+                to="/tours"
+                style={{ fontWeight: 'bold', fontSize: '1.01rem',marginRight: '35px', color: 'rgba(255,255,255,0.9)' }}
+                className="hover:text-gray-300"
+              />
+              <Tab
+                label="Contact"
+                component={Link}
+                to="/contact"
+                style={{ fontWeight: 'bold', fontSize: '1.01rem',marginRight: '35px', color: 'rgba(255,255,255,0.9)' }}
+                className="hover:text-gray-300"
+              />
+              <div style={{ marginLeft: '170px', marginRight: '170px' }}>
                 <img
                   src="https://i.postimg.cc/6Q1tcM0S/HL1.png" 
                   alt="Holiday Life Logo"
                   style={{ height: '72px', objectFit: 'contain' }}
                 />
               </div>
-              {!user && <Tab label="Login" component={Link} to="/login" value={5} />}
-              {!user && <Tab label="Register" component={Link} to="/register" value={6} />}
-              {user && !user.isAdmin && <Tab label="Account" component={Link} to="/account" value={7} />}
-              {user && user.isAdmin && <Tab label="Admin Panel" component={Link} to="/admin" value={8} />}
-              {user && <Tab label="Logout" onClick={handleLogout} value={9} />}
+              {!user && (
+                <div style={{ marginRight: '65px', flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <form
+                  onSubmit={handleSearchSubmit}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    backgroundColor: 'transparent',
+                    borderRadius: '50px',
+                    border: "1.5px solid rgba(255,255,255,0.7)",
+                    padding: '0px 10px',
+                    boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+                    transition: 'all 0.3s ease-in-out', // Smooth transition for hover effect
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.1)';
+                    e.currentTarget.style.borderColor = 'rgba(255,255,255,1)';
+                    e.currentTarget.style.boxShadow = '0px 6px 8px rgba(0, 0, 0, 0.2)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = 'transparent';
+                    e.currentTarget.style.borderColor = 'rgba(255,255,255,0.7)';
+                    e.currentTarget.style.boxShadow = '0px 4px 6px rgba(0, 0, 0, 0.1)';
+                  }}
+                >
+                  <InputBase
+                    placeholder="Search..."
+                    value={searchTerm}
+                    onChange={handleSearchChange}
+                    style={{
+                      backgroundColor: 'transparent',
+                      borderRadius: '25px',
+                      padding: '0px 10px',
+                      width: '250px',
+                      color: 'white',
+                      outline: 'none',
+                    }}
+                  />
+                  <IconButton type="submit">
+                    <SearchIcon style={{ color: 'rgba(255,255,255,0.7)', background: 'transparent', borderRadius: '25px', padding: '0px' }} />
+                  </IconButton>
+                </form>
+              </div>
+              
+              )}
+              {!user && (
+                <div style={{ marginRight: '0px', display: 'flex', alignItems: 'center', backgroundColor: 'transparent', padding: '0px 10px' }}>
+                <Select
+                  value={currency}
+                  onChange={handleCurrencyChange}
+                  style={{
+                    backgroundColor: 'transparent',
+                    fontSize: '1rem',
+                    fontWeight: 'bold',
+                    color: 'rgba(255,255,255,0.9)',
+                    padding: '0px 10px',
+                    borderRadius: '25px',
+                    border: '1.5px solid rgba(255,255,255,0.7)',
+                    height: '45px',
+                  }}
+                  disableUnderline
+                >
+                  {currencyOptions.map((option) => (
+                    <MenuItem key={option.value} value={option.value} style={{ display: 'flex', alignItems: 'center', paddingTop: '0px' }}>
+                      <span style={{ marginRight: '8px', padding: '-10px 0px' }}>{option.flag}</span> {option.label}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </div>
+              
+              )}
+              {user && !user.isAdmin && (
+                <Tab
+                  label="Account"
+                  component={Link}
+                  to="/account"
+                  value={7}
+                  style={{ fontWeight: 'bold', fontSize: '1.05rem', marginRight: '50px' }}
+                  className="hover:text-gray-300"
+                />
+              )}
+              {user && user.isAdmin && (
+                <Tab
+                  label="Admin Panel"
+                  component={Link}
+                  to="/admin"
+                  value={8}
+                  style={{ fontWeight: 'bold', fontSize: '1.05rem', marginRight: '50px' }}
+                  className=" hover:text-gray-300"
+                />
+              )}
+              {user && (
+                <Tab
+                  label="Logout"
+                  onClick={handleLogout}
+                  value={9}
+                  style={{ fontWeight: 'bold', fontSize: '1.05rem', marginRight: '50px' }}
+                  className="hover:text-gray-300"
+                />
+              )}
+
             </Tabs>
           </div>
         </Toolbar>

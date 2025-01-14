@@ -19,7 +19,7 @@ const HomeScreen = () => {
     <div style={{ backgroundColor: '#caf0f8' }}>
       <LiveChat />
 
-      <Box bgcolor="#ffffff" padding="35px" mt="30px" minWidth='100vw'marginTop={'1px'}><br></br>
+      <Box bgcolor="#ffffff" padding="35px" mt="30px" minWidth='100vw' marginTop={'1px'}><br></br>
         <div style={{ display: 'flex', marginBottom: '30px' }}>
           {/* Left Block: Image */}
           <div
@@ -30,17 +30,18 @@ const HomeScreen = () => {
               backgroundPosition: 'center',
               height: '550px',
               marginLeft: '10px',
-              transition: 'transform 0.3s ease background-color 0.3s ease, opacity 0.8s ease', 
+              transition: 'transform 0.3s ease, background-color 0.3s ease, opacity 0.8s ease', 
               cursor: 'pointer', 
             }}
             
             onMouseEnter={(e) => {
               e.target.style.transform = 'scale(1.04)'; 
-               e.target.style.backgroundColor = 'rgba(0, 0, 0, 0.5)'
+              e.target.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
             }}
             
             onMouseLeave={(e) => {
               e.target.style.transform = 'scale(1)'; 
+              e.target.style.backgroundColor = 'transparent';
             }}
             
           ></div>
@@ -64,6 +65,7 @@ const HomeScreen = () => {
                 color: '#0A369D',
                 textAlign: 'center',
                 fontSize: '40px',
+                fontWeight: 'bold',
               }}
             >
               About<br />Holiday Life
@@ -75,8 +77,9 @@ const HomeScreen = () => {
                 fontSize: '20px',
                 lineHeight: '1.8',
                 color: '#4472CA',
-                textAlign: 'center',
-                margin: '5px'
+                margin: '5px',
+                textAlign: 'justify',
+                padding: '0 30px',
               }}
             >
               Holiday Life Travel Agency is your premier partner in crafting unforgettable travel experiences. Specializing in bespoke itineraries and personalized service, we offer curated journeys to destinations worldwide, ensuring every detail of your holiday is meticulously planned. Whether you seek a relaxing beach getaway, an adventurous expedition, or a cultural exploration, Holiday Life Travel Agency turns your dreams into reality with expertise and passion, making every trip a journey to remember. </p>
@@ -91,8 +94,18 @@ const HomeScreen = () => {
                 backgroundColor: '#023e8a',
                 textDecoration: 'none',
                 border: 'solid 1px',
+                borderRadius: '10px',
                 borderColor: '#0A369D',
                 marginTop: '20px',
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.transform = 'scale(1.04)'; 
+                e.target.style.backgroundColor = '#022859';
+              }}
+              
+              onMouseLeave={(e) => {
+                e.target.style.transform = 'scale(1)'; 
+                e.target.style.backgroundColor = '#023e8a';
               }}
             >
               Discover Tours
@@ -102,7 +115,7 @@ const HomeScreen = () => {
       </Box>
 
       <Container>
-        <Typography variant="h3" component="div" sx={{ color: '#0A369D', marginBottom: '20px', fontFamily: 'Dancing Script', textAlign: 'center' }}>
+        <Typography variant="h3" component="div" sx={{ color: '#0A369D', marginBottom: '20px', fontFamily: 'Dancing Script', textAlign: 'center', fontWeight: 'semibold' }}>
           <br />
           Experience the Essence of The Ocean
         </Typography><br />
@@ -177,7 +190,6 @@ const HomeScreen = () => {
         </Container>
       </Box>
 
-      <FAQAccordion />
       <Experience /><br></br><br></br>
       <Footer />
     </div>
