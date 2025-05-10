@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 # Expose the app's port (default for Express is 3000)
-EXPOSE 5000
+EXPOSE 8000
 
 # Command to start the app
 CMD ["npm", "start"]

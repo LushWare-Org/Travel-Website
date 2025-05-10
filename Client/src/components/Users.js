@@ -13,7 +13,7 @@ const Users = () => {
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get('http://localhost:5000/api/users/all');
+      const { data } = await axios.get('http://localhost:8000/api/users/all');
       setUsers(data);
       setLoading(false);
     } catch (error) {
@@ -25,7 +25,7 @@ const Users = () => {
 
   const handleDeleteUser = async (userId) => {
     try {
-      await axios.delete(`http://localhost:5000/api/users/${userId}`);
+      await axios.delete(`http://localhost:8000/api/users/${userId}`);
       message.success('User deleted successfully');
       fetchUsers(); // Refresh the list
     } catch (error) {

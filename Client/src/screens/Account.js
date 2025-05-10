@@ -33,7 +33,7 @@ const Account = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/book/${id}`);
+        const response = await fetch(`http://localhost:8000/book/${id}`);
         if (!response.ok) throw new Error('Failed to fetch booking data');
         const data = await response.json();
         setMyBookings(data);
@@ -47,7 +47,7 @@ const Account = () => {
 
   // Cancel booking handler
   const handleCancelBooking = (bookingId) => {
-    fetch(`http://localhost:5000/book/cancel/${bookingId}`, {
+    fetch(`http://localhost:8000/book/cancel/${bookingId}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
     })

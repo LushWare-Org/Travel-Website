@@ -1,10 +1,10 @@
 [{
-  "_id": {
+ "_id": {
     "$oid": "67854de54df35aa9c98df605"
   },
-  "title": "Romantic Overwater Escape",
+  "title": "Brennia Kottefaru Maldives",
   "days": 5,
-  "price": 2500,
+  "price": 1578,
   "images": [
     "https://i.postimg.cc/gjFW8vBC/1.jpg",
     "https://i.postimg.cc/tTVbsrDd/2.jpg"
@@ -15,9 +15,9 @@
   "_id": {
     "$oid": "67854de54df35aa9c98df606"
   },
-  "title": "Sunset Serenity Package",
+  "title": "Sun Siyam Olhuveli Maldives",
   "days": 4,
-  "price": 1800,
+  "price": 1495,
   "images": [
     "https://i.postimg.cc/QCQrbH2H/3.jpg",
     "https://i.postimg.cc/9XZVVnDC/4.jpg"
@@ -28,9 +28,9 @@
   "_id": {
     "$oid": "67854de54df35aa9c98df607"
   },
-  "title": "Maldivian Romance Retreat",
-  "days": 7,
-  "price": 3200,
+  "title": "Siyam World Maldives",
+  "days": 4,
+  "price": 1779,
   "images": [
     "https://i.postimg.cc/7YNkJJ1R/5.jpg",
     "https://i.postimg.cc/VkGPDyVB/6.jpg"
@@ -41,9 +41,9 @@
   "_id": {
     "$oid": "67854de54df35aa9c98df608"
   },
-  "title": "Family Adventure Paradise",
-  "days": 6,
-  "price": 2700,
+  "title": "Holiday Inn Kandooma Maldives",
+  "days": 4,
+  "price": 838,
   "images": [
     "https://i.postimg.cc/Jz4WN7Pz/7.jpg",
     "https://i.postimg.cc/5tDdWB1X/8.jpg"

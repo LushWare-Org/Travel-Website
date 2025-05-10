@@ -48,7 +48,7 @@ const Rooms = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/rooms', {
+        const response = await axios.get('http://localhost:8000/api/rooms', {
           params: {
             fromDate,
             toDate,
@@ -66,7 +66,7 @@ const Rooms = () => {
   return (
     <div>
       <br />
-      <h1 style={{ textAlign: "center", fontFamily: 'Dancing Script' }}>Book Now</h1>
+      <h1 style={{ textAlign: "center", fontFamily: 'Dancing Script', fontSize: '50px' }}>Book Now</h1>
       <br />
 
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>

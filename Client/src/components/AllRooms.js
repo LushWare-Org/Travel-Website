@@ -21,7 +21,7 @@ const AllRooms = () => {
   const fetchRooms = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('http://localhost:5000/api/rooms');
+      const response = await axios.get('http://localhost:8000/api/rooms');
       setRooms(response.data);
       const indices = {};
       response.data.forEach(room => {
@@ -74,7 +74,7 @@ const AllRooms = () => {
 
   const handleUpdate = async (roomId) => {
     try {
-      const response = await axios.put(`http://localhost:5000/api/rooms/${roomId}`, editedRoom);
+      const response = await axios.put(`http://localhost:8000/api/rooms/${roomId}`, editedRoom);
       setRooms((prevRooms) =>
         prevRooms.map((room) => (room._id === roomId ? response.data : room))
       );
@@ -90,7 +90,7 @@ const AllRooms = () => {
     if (!confirmDelete) return;
 
     try {
-      await axios.delete(`http://localhost:5000/api/rooms/${roomId}`);
+      await axios.delete(`http://localhost:8000/api/rooms/${roomId}`);
       setRooms((prevRooms) => prevRooms.filter((room) => room._id !== roomId));
       alert("Room deleted successfully");
     } catch (error) {

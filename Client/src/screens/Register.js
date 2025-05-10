@@ -47,7 +47,7 @@ const Signup = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:5000/api/users/register", {
+      const response = await axios.post("http://localhost:8000/api/users/register", {
         name: formData.name,
         email: formData.email,
         password: formData.password,
@@ -77,7 +77,7 @@ const Signup = () => {
   };
 
   const handleSocialRegister = (provider) => {
-    const url = `http://localhost:5000/api/users/auth/${provider}`;
+    const url = `http://localhost:8000/api/users/auth/${provider}`;
     window.location.href = url;
   };
 

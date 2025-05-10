@@ -34,7 +34,7 @@ const AdminRoomForm = () => {
     const fetchRoom = async () => {
       if (roomId) {
         try {
-          const response = await axios.get(`http://localhost:5000/rooms/${roomId}`);
+          const response = await axios.get(`http://localhost:8000/rooms/${roomId}`);
           setRoom(response.data.room);
         } catch (error) {
           console.error("Error fetching room:", error);
@@ -44,8 +44,8 @@ const AdminRoomForm = () => {
 
     const fetchAmenitiesAndFeatures = async () => {
       try {
-        const amenitiesResponse = await axios.get('http://localhost:5000/amenities'); 
-        const featuresResponse = await axios.get('http://localhost:5000/features'); 
+        const amenitiesResponse = await axios.get('http://localhost:8000/amenities'); 
+        const featuresResponse = await axios.get('http://localhost:8000/features'); 
         setAllAmenities(amenitiesResponse.data);
         setAllFeatures(featuresResponse.data);
       } catch (error) {
@@ -84,10 +84,10 @@ const AdminRoomForm = () => {
     try {
       if (roomId) {
         // Update existing room
-        await axios.put(`http://localhost:5000/rooms/${roomId}`, room);
+        await axios.put(`http://localhost:8000/rooms/${roomId}`, room);
       } else {
         // Create new room
-        await axios.post('http://localhost:5000/rooms', room);
+        await axios.post('http://localhost:8000/rooms', room);
       }
       navigate('/admin'); 
     } catch (error) {

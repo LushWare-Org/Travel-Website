@@ -51,7 +51,7 @@ const Bookings = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/book/all');
+        const response = await axios.get('http://localhost:8000/book/all');
         setBookings(response.data);
         console.log(response.data);
         setLoading(false);

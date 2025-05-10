@@ -1,6 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, TextField, Button, Typography, List, ListItem, ListItemText } from '@mui/material';
 import ChatIcon from '@mui/icons-material/Chat';
+import { useSpring } from 'react-spring';
+
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return isMobile;
+}
 
 const LiveChat = () => {
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -10,7 +25,23 @@ const LiveChat = () => {
   const [userMessage, setUserMessage] = useState('');
   const [userName, setUserName] = useState('');
   const [showFAQ, setShowFAQ] = useState(false);
+  const isMobile = useIsMobile();
+  const [visible, setVisible] = useState(true);
+  const [prevScrollPos, setPrevScrollPos] = useState(window.pageYOffset);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollPos = window.pageYOffset;
+      setVisible(prevScrollPos > currentScrollPos || currentScrollPos < 200);
+      setPrevScrollPos(currentScrollPos);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [prevScrollPos]);
+  
   const faqList = [
     { question: 'What are your working hours?', answer: 'Our working hours are 9 AM to 6 PM, Monday to Friday.' },
     { question: 'How can I book a room?', answer: 'You can book a room through our website or by calling our reception.' },
@@ -77,7 +108,7 @@ const LiveChat = () => {
 
   return (
     <div>
-      <div
+      {isMobile && !visible && (<div
         onClick={toggleChatWindow}
         style={{
           position: 'fixed',
@@ -92,7 +123,24 @@ const LiveChat = () => {
         }}
       >
         <ChatIcon style={{ color: 'white', fontSize: '30px' }} />
-      </div>
+      </div>)}
+
+      {!isMobile && (<div
+        onClick={toggleChatWindow}
+        style={{
+          position: 'fixed',
+          bottom: '30px',
+          right: '30px',
+          backgroundColor: '#0077b6',
+          borderRadius: '50%',
+          padding: '20px',
+          cursor: 'pointer',
+          boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
+          zIndex: '9999',
+        }}
+      >
+        <ChatIcon style={{ color: 'white', fontSize: '30px' }} />
+      </div>)}
 
       {isChatOpen && (
         <Box

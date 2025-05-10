@@ -34,7 +34,7 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post('http://localhost:5000/api/users/login', {
+      const response = await axios.post('http://localhost:8000/api/users/login', {
         email: formData.email,
         password: formData.password,
       });
@@ -62,7 +62,7 @@ const Login = () => {
   };
 
   const handleSocialLogin = (provider) => {
-    const url = `http://localhost:5000/api/users/auth/${provider}`;
+    const url = `http://localhost:8000/api/users/auth/${provider}`;
     window.location.href = url;
   };
 

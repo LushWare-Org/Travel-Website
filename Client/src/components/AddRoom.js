@@ -40,7 +40,7 @@ const AddRoom = () => {
   useEffect(() => {
     const fetchAmenities = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/amenities');
+        const response = await axios.get('http://localhost:8000/api/amenities');
         setAllAmenities(response.data);
       } catch (error) {
         console.error("Error fetching amenities:", error);
@@ -54,7 +54,7 @@ const AddRoom = () => {
     const fetchRoom = async () => {
       if (id) {
         try {
-          const response = await axios.get(`http://localhost:5000/api/rooms/${id}`);
+          const response = await axios.get(`http://localhost:8000/api/rooms/${id}`);
           setRoom(response.data);
         } catch (error) {
           console.error("Error fetching room:", error);
@@ -94,11 +94,11 @@ const AddRoom = () => {
     try {
       if (id) {
         // Update an existing room
-        await axios.put(`http://localhost:5000/api/rooms/${id}`, room);
+        await axios.put(`http://localhost:8000/api/rooms/${id}`, room);
         setSnackbarMessage('Room updated successfully!');
       } else {
         // Add a new room
-        await axios.post('http://localhost:5000/api/rooms', room);
+        await axios.post('http://localhost:8000/api/rooms', room);
         setSnackbarMessage('Room added successfully!');
       }
       setSnackbarSeverity('success');

@@ -1,10 +1,25 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import './OffersSection.css';
+
+
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return isMobile;
+}
 
 const offers = [
   {
@@ -47,6 +62,7 @@ const offers = [
 
 
 const OffersSection = () => {
+  const isMobile = useIsMobile()
   return (
     <div className="offers-section-wrapper">
       <div className="offers-section">
@@ -60,7 +76,7 @@ const OffersSection = () => {
         <Swiper
           modules={[Navigation, Pagination]}
           spaceBetween={20}
-          slidesPerView={3}
+          slidesPerView={isMobile? 1 : 3}
           navigation
           pagination={{ clickable: true }}
           loop={true} // Enables infinite looping

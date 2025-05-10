@@ -1,132 +1,174 @@
-import React from 'react';
-import { Grid, Button } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Grid, Card, CardContent, CardMedia, Typography, Box, Rating, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import Rating from '@mui/material/Rating'; 
-import ClickablePicture from './ClickablePicture';
-import {tourGallery} from './imageGalleryData';
+import { tourGallery } from './imageGalleryData';
+import PhoneIcon from '@mui/icons-material/Phone';
+import Slider from 'react-slick';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
+function useDeviceType() {
+  const [deviceType, setDeviceType] = useState({
+    isMobile: window.innerWidth <= 768,
+    isTablet: window.innerWidth > 768 && window.innerWidth <= 1024,
+  });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setDeviceType({
+        isMobile: window.innerWidth <= 768,
+        isTablet: window.innerWidth > 768 && window.innerWidth <= 1024,
+      });
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return deviceType;
+}
 
 const ImageGallery = () => {
-  const navigate = useNavigate(); 
+  const { isMobile, isTablet } = useDeviceType();
+  const navigate = useNavigate();
 
   const handleClick = (id) => {
-    //navigate(`/rooms/${id}`); 
+    navigate(`/tours/${id.$oid}`);
   };
 
-  // return(
-  //   <div style={{  width: '100%', minHeight: '90vh', padding: '0px 0' }}>
-  //   <Grid container spacing={3}>
-  //   {tourGallery.map((item, index) => (
-  //   <div className="max-w-sm bg-white rounded-lg shadow-md overflow-hidden">
-  //     <img
-  //       src={item.images[0]}
-  //       alt="Tour Package"
-  //       className="w-full h-48 object-cover"
-  //     />
-  //     <div className="p-4">
-  //       <p className="text-gray-500 text-sm mb-1">{item.days} days & {item.days - 1} nights</p>
-  //       <div className="flex items-center justify-between">
-  //         <h2 className="text-lg font-bold">{item.title}</h2>
-  //         <div className="flex items-center">
-  //           <Rating
-  //             name="read-only"
-  //             value={4.5}
-  //             precision={0.1}
-  //             readOnly
-  //             size="small"
-  //           />
-  //           <p className="text-gray-500 text-sm ml-1">(39)</p>
-  //         </div>
-  //       </div>
-  //       <div className="text-yellow-600 font-bold mt-2 text-lg">5D Maldives</div>
-  //       <div className="mt-3">
-  //         <p className="text-lg text-green-600 font-bold">
-  //             USD {item.price}{" "}
-  //           <span className="line-through text-gray-500 font-normal text-sm">
-  //           USD {item.price - 250}
-  //           </span>{" "}
-  //           <span className="text-red-600 text-sm font-bold">
-  //             SAVE USD 250
-  //           </span>
-  //         </p>
-  //       </div>
-  //       <div className="mt-4 flex items-center gap-3">
-  //         <Button
-  //           variant="outlined"
-  //           startIcon={<i className="fas fa-phone"></i>}
-  //           className="text-orange-600 border-orange-600 hover:bg-orange-50"
-  //         >
-  //           Call
-  //         </Button>
-  //         <Button
-  //           variant="contained"
-  //           className="bg-orange-600 text-white hover:bg-orange-700"
-  //         >
-  //           Request Callback
-  //         </Button>
-  //       </div>
-  //     </div>
-  //   </div>
-  //   ))}
-  //   </Grid>
-  //   </div>
-  // );
+  const sliderSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+  };
 
   return (
-    <div style={{  width: '100%', minHeight: '90vh', padding: '0px 0' }}>
-      <Grid container spacing={3}>
+    <Box sx={{ width: '100%', minHeight: '70vh', padding: isMobile? '20px 10px' : '20px 30px', backgroundColor: '#f9f9f9' }}>
+      <Grid container spacing={5}>
         {tourGallery.map((item, index) => (
-          <Grid item xs={4} key={index}>
-            <ClickablePicture
-              imageUrl={item.images[0]}
-              onClick={() => handleClick(item._id)}
-            />
-            <div className="p-4">
-              <p className="text-gray-500 text-sm mb-1">{item.days} days & {item.days - 1} nights</p>
-              <div className="flex items-center justify-between">
-                <h2 className="text-lg font-bold">{item.title}</h2>
-                <div className="flex items-center">
-                  <Rating
-                    name="read-only"
-                    value={4.5}
-                    precision={0.1}
-                    readOnly
-                    size="small"
-                  />
-                  <p className="text-gray-500 text-sm ml-1">(39)</p>
-                </div>
-              </div>
-              <div className="text-yellow-600 font-bold mt-2 text-lg">5D Maldives</div>
-              <div className="mt-3">
-                <p className="text-lg text-green-600 font-bold">
-                    USD {item.price}{" "}
-                  <span className="line-through text-gray-500 font-normal text-sm">
-                  USD {item.price - 250}
-                  </span>{" "}
-                  <span className="text-red-600 text-sm font-bold">
-                    SAVE USD 250
-                  </span>
-                </p>
-              </div>
-              <div className="mt-4 flex items-center gap-3">
-                <Button
-                  variant="outlined"
-                  startIcon={<i className="fas fa-phone"></i>}
-                  className="text-orange-600 border-orange-600 hover:bg-orange-50"
+          <Grid item xs={12} sm={6} md={4} key={index}>
+            <Card
+              sx={{
+                borderRadius: '16px',
+                height: isMobile? '580px' : '610px',
+                boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+                transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                '&:hover': {
+                  transform: 'scale(1.03)',
+                  boxShadow: '0px 8px 20px rgba(0, 0, 0, 0.2)',
+                },
+                overflow: 'hidden',
+              }}
+            >
+              <Box sx={{ position: 'relative' }}>
+                <Slider {...sliderSettings}>
+                  {item.images.map((image, idx) => (
+                    <CardMedia
+                      key={idx}
+                      component="img"
+                      height="200"
+                      image={image}
+                      alt={item.title}
+                      sx={{
+                        cursor: 'pointer',
+                        '&:hover': {
+                          filter: 'brightness(0.85)',
+                        },
+                      }}
+                      onClick={() => handleClick(item._id)}
+                    />
+                  ))}
+                </Slider>
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    bottom: 0,
+                    width: '100%',
+                    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+                    color: '#fff',
+                    padding: '10px',
+                    textAlign: 'center',
+                  }}
                 >
-                  Call
-                </Button>
-                <Button
-                  variant="contained"
-                  className="bg-orange-600 text-white hover:bg-orange-700"
-                >
-                  Request Callback
-                </Button>
-              </div>
-            </div>
+                  <Typography variant="body2" fontWeight="bold">
+                    {item.days} days & {item.days - 1} nights
+                  </Typography>
+                </Box>
+              </Box>
+              <CardContent sx={{ backgroundColor: '#fff', padding: '20px' }}>
+                <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
+                  <Typography variant="h6" fontWeight="bold" fontSize={20}>
+                    {item.title}
+                  </Typography>
+                  <Box display="flex" alignItems="center">
+                    <Rating name="read-only" value={4.5} precision={0.1} readOnly size="small" />
+                    <Typography variant="body2" color="textSecondary" ml={1}>
+                      (23)
+                    </Typography>
+                  </Box>
+                </Box>
+                <Box>
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      color: 'text.primary',
+                      fontWeight: 'bold',
+                    }}
+                    gutterBottom
+                    display="flex"
+                    justifyContent="space-between"
+                    mb={1}
+                  >
+                    USD {item.price.toLocaleString()} {' '}
+                    <Typography
+                      component="span"
+                      variant="body1"
+                      sx={{ textDecoration: 'line-through', marginLeft: 1, color: 'text.secondary' }}
+                    >
+                      USD {(item.price + 500).toLocaleString()}
+                    </Typography>{' '}
+                    <Typography component="span" variant="body2" color="error" fontWeight="bold" backgroundColor="rgba(76, 175, 80, 0.1)" padding={0.5}>
+                      SAVE USD 500
+                    </Typography>
+                  </Typography>
+                </Box>
+                <Box display="flex" gap={2} mt={3}>
+                  <Button
+                    variant="outlined"
+                    startIcon={<PhoneIcon />}
+                    sx={{
+                      borderColor: '#4CAF50',
+                      color: '#4CAF50',
+                      '&:hover': {
+                        backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                        borderColor: '#4CAF50',
+                      },
+                    }}
+                  >
+                    Call
+                  </Button>
+                  <Button
+                    variant="contained"
+                    fullWidth
+                    sx={{
+                      backgroundColor: '#2196F3',
+                      color: '#fff',
+                      '&:hover': {
+                        backgroundColor: '#1976D2',
+                      },
+                    }}
+                  >
+                    Request Callback
+                  </Button>
+                </Box>
+              </CardContent>
+            </Card>
           </Grid>
         ))}
       </Grid>
-    </div>
+    </Box>
   );
 };
 
